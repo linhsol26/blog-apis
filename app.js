@@ -32,6 +32,17 @@ app.use((req, res, next) => {
     next(createError(404));
 });
 
+app.use((err, req, res, next) => {  
+    // Send the error
+    console.log(err);
+    res.status(err.status || 500);
+    res.send({
+      'errors': {
+        'body': [err.message]
+      }
+    });
+});
+
 app.listen(3000, () => {
     console.log('server is running http://localhost:3000')
 })

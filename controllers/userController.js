@@ -11,7 +11,7 @@ const register = (req, res, next) => {
     if (!validations.emailRegex.test(email)) return next(new ApiError('Email address not valid'));
     if (!password) return next(new ApiError('Please provide password'));
   
-    UserModel.findOne({ username})
+    UserModel.findOne({ username })
         .then(document => {
         if (document !== null) {
             return Promise.reject(new ApiError('Username already exists'));
@@ -30,7 +30,7 @@ const register = (req, res, next) => {
             res.json(getApiResponse(document, token));
         });
         })
-        .catch(err => next(err));
+    .catch(err => next(err));
 };
 
 const login = (req, res, next) => {
