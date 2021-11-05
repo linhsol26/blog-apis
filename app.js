@@ -32,4 +32,8 @@ app.use((req, res, next) => {
     next(createError(404));
 });
 
+app.listen(3000, () => {
+    console.log('server is running http://localhost:3000')
+})
+
 module.exports = app;
