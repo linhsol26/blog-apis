@@ -79,9 +79,9 @@ const updateCurrentUser = async (req, res, next) => {
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
     
     if (email) updateObject['email'] = email;
-    if (username) updateObject['username'] = `${basePath}${fileName}`;
+    if (username) updateObject['username'] = username;
     if (bio) updateObject['bio'] = bio;
-    if (image) updateObject['image'] = image;
+    if (image) updateObject['image'] = `${basePath}${fileName}`;
     if (Object.keys(updateObject).length === 0) return next(new ApiError('At least one field is required'));
   
     if (email) {
