@@ -28,8 +28,9 @@ const add = (req, res, next) => {
 const getOne = (req, res, next) => {
   const { slug } = req.params;
 
-  let articleDocument, isFollowingAuthor = false;
-  ArticleModel.findOne({ slug })
+  let articleDocument
+  let isFollowingAuthor = false;
+  ArticleModel.findOne({ slug }).populate('author')
     .then(document => {
         if (document === null) return Promise.reject(new ApiError('Article not found'));
         articleDocument = document;
@@ -41,11 +42,11 @@ const getOne = (req, res, next) => {
     })
     .then(document => {
         isFollowingAuthor = document !== null;
-        return articleDocument.populate('author', {username: 1, bio: 1, image: 1, _id : 0});
+        return articleDocument.populate('author');
     })
     .then(document => {
-        document.author._doc.following = isFollowingAuthor;
-        res.json({ article: document});
+        document.author._id.following = isFollowingAuthor;
+        res.json({ article: document });
     })
     .catch(err => next(err));
 };
@@ -87,14 +88,16 @@ const getMany = async (req, res, next) => {
   let articleDocuments;
   ArticleModel.find(filterObject, null, { limit, skip: offset, sort: { createdAt: -1 } }).populate('author', {username: 1, bio: 1, image: 1, _id : 1})
     .then(documents => {
+        console.log(documents)
         if (!documents) return Promise.reject(new ApiError('No documents found with given criteria'));
         articleDocuments = documents;
         return req.user ? FollowingModel.findOne({user : req.user.userId}) : null;
     })
     .then(document => {
+        console.log(document)
         if (document === null) {
             articleDocuments.forEach(item => {
-                item.author._doc.following = false;
+                item.author._id.following = false;
                 delete item.author._id;
             })
         } else {
@@ -153,7 +156,7 @@ const update = (req, res, next) => {
         return document.populate('author', {username: 1, bio: 1, image: 1, _id : 0});
     })
     .then(document => {
-        document.author._doc.following = false;
+        document.author._id.following = false;
         res.json({ article: document });
     })
     .catch(err => next(err));

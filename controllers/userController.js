@@ -69,19 +69,10 @@ const updateCurrentUser = async (req, res, next) => {
     const { email, username, bio, image } = req.body.user;
   
     let updateObject = {};
-
-    const file = req.file
-    if (!file) {
-        return res.status(400).send('No image in the request')
-    }
-
-    const fileName = req.file.filename
-    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
     
     if (email) updateObject['email'] = email;
     if (username) updateObject['username'] = username;
     if (bio) updateObject['bio'] = bio;
-    if (image) updateObject['image'] = `${basePath}${fileName}`;
     if (Object.keys(updateObject).length === 0) return next(new ApiError('At least one field is required'));
   
     if (email) {
@@ -100,6 +91,10 @@ const updateCurrentUser = async (req, res, next) => {
         res.json(getApiResponse(document, req.token));
         })
         .catch(err => next(err));
+}
+
+const updateAvatar = async (req, res, next) => {
+    
 }
 
 const getApiResponse = (userDocument, token) => {

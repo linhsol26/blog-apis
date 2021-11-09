@@ -12,7 +12,8 @@ mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
     useFindAndModify: false,
-    dbName: 'blog-database'
+    dbName: 'blog-database',
+    useCreateIndex: true
 }).then(_ => console.log('MongoDB connection established')).catch(err => console.log(err));
 
 const app = express();

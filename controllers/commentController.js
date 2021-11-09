@@ -23,7 +23,7 @@ const add = (req, res, next) => {
         return document.populate('author', { username: 1, bio: 1, image: 1, _id : 0 });
     })
     .then(document => {
-        document.author._doc.following = false;
+        document.author._id.following = false;
         res.json({ comment: document });
     })
     .catch(err => next(err));
