@@ -6,11 +6,12 @@ const favoriteController = require('../controllers/favoriteController');
 const commentController = require('../controllers/commentController');
 
 router.post('/', authController.checkAuthorization, articleController.add);
-router.get('/:slug', authController.checkAuthorizationOptional,  articleController.getOne);
+router.get('/:slug', authController.checkAuthorizationOptional, articleController.getOne);
 router.get('/', authController.checkAuthorizationOptional, articleController.getMany);
 router.put('/:slug', authController.checkAuthorization, articleController.update);
 router.delete('/:slug', authController.checkAuthorization, articleController.remove);
 router.post('/:slug/favorite', authController.checkAuthorization, favoriteController.add);
+router.get('/:id/favorite', authController.checkAuthorization, favoriteController.all);
 router.delete('/:slug/favorite', authController.checkAuthorization, favoriteController.remove);
 router.get('/:slug/comments', authController.checkAuthorizationOptional, commentController.getMany);
 router.post('/:slug/comments', authController.checkAuthorization, commentController.add);
