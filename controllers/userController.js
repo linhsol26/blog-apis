@@ -72,6 +72,7 @@ const updateCurrentUser = async(req, res, next) => {
     if (email) updateObject['email'] = email;
     if (username) updateObject['username'] = username;
     if (bio) updateObject['bio'] = bio;
+    if (image) updateObject['image'] = image;
     if (Object.keys(updateObject).length === 0) return next(new ApiError('At least one field is required'));
 
     if (email) {
@@ -104,7 +105,9 @@ const getApiResponse = (userDocument, token) => {
             token,
             username: userDocument.username,
             bio: userDocument.bio,
-            image: userDocument.image
+            image: userDocument.image,
+            followers: userDocument.followers,
+            following: userDocument.following,
         }
     };
 }

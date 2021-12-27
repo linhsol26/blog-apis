@@ -105,6 +105,7 @@ const getApiResponse = (userDocument, following) => {
     username: userDocument.username,
     bio: userDocument.bio,
     image: userDocument.image,
+    email: userDocument.email,
     following
   }};
 }

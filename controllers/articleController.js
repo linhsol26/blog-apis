@@ -116,7 +116,7 @@ const getMany = async(req, res, next) => {
             console.log(documents);
             if (!documents)
                 return Promise.reject(
-                    new ApiError("No documents found with given criteria")
+                    new ApiError("No documents found with given author")
                 );
             articleDocuments = documents;
             return req.user ?
