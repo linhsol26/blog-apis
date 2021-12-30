@@ -45,6 +45,10 @@ app.use((err, req, res, next) => {
     });
 });
 
+app.use('/hello', () => {
+    console.log('hello');
+})
+
 app.listen(+process.env.PORT || 3000, () => {
     console.log('server is running at ${process.env.PORT}`')
 })
